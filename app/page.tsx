@@ -8,14 +8,19 @@ import { StarField } from "@/components/star-field";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black selection:bg-pink-500 selection:text-white">
-      <StarField />
-      <Navbar />
-      <Hero />
-      <About />
-      <Gallery />
-      <Tokenomics />
-      <Community />
-    </main>
+    <>
+      <h1 className="sr-only">
+        Asuka Kirara - Official $KIRARA Token on Solana Blockchain
+      </h1>
+      <main className="min-h-screen bg-black selection:bg-pink-500 selection:text-white">
+        <StarField />
+        <Navbar />
+        <Hero />
+        <About />
+        <Gallery />
+        <Tokenomics />
+        <Community />
+      </main>
+    </>
   );
 }

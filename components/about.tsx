@@ -29,10 +29,11 @@ export function About() {
               className="relative h-[500px] lg:h-[700px] w-full rounded-2xl overflow-hidden"
             >
               <Image
-                src="/2.jpg"
-                alt="Asuka Kirara Portrait"
+                src="/pic_03.png"
+                alt="Asuka Kirara Portrait - Icon status in Asian entertainment, award-winning actress and digital influencer"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 700px"
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/20 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />

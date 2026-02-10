@@ -29,7 +29,7 @@ export function Hero() {
       <div className="container relative z-10 mx-auto px-6 grid lg:grid-cols-2 gap-4 lg:gap-12 items-center">
         <motion.div
           style={{ y: y1, opacity }}
-          className="text-center lg:text-left space-y-6 lg:space-y-8 -mt-32 lg:mt-0 relative z-20 will-change-transform"
+          className="text-center lg:text-left space-y-4 sm:space-y-6 lg:space-y-8 -mt-48 sm:-mt-40 lg:mt-0 relative z-20 will-change-transform"
         >
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -120,17 +120,18 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="relative h-[400px] sm:h-[500px] lg:h-[700px] w-full order-first lg:order-last will-change-transform"
+          className="relative h-[350px] sm:h-[450px] lg:h-[700px] w-full order-first lg:order-last will-change-transform"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10 lg:hidden" />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-black z-10 hidden lg:block" />
 
           <Image
-            src="/1.webp"
-            alt="Asuka Kirara"
+            src="/pic_02.png"
+            alt="Asuka Kirara - The Queen of Web3, legendary Japanese icon entering blockchain revolution"
             fill
             className="object-cover object-top lg:object-center rounded-2xl grayscale hover:grayscale-0 transition-all duration-700 ease-out"
             priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 700px"
           />
 
           {/* Floating info cards */}
@@ -175,9 +176,10 @@ export function Hero() {
               <div className="absolute inset-0 bg-pink-500/20 rounded-full blur-xl animate-pulse" />
               <Image
                 src="/kirara_solana.png"
-                alt="Kirara Solana"
+                alt="Kirara Solana - Official $KIRARA token logo on Solana blockchain"
                 fill
                 className="object-contain drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]"
+                sizes="(max-width: 640px) 80px, (max-width: 1024px) 80px, 112px"
               />
             </div>
           </motion.div>

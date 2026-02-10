@@ -88,9 +88,10 @@ export function Tokenomics() {
               >
                 <Image
                   src="/kirara_solana.png"
-                  alt="Kirara Solana Token"
+                  alt="Kirara Solana Token - $KIRARA cryptocurrency on Solana blockchain with 1 billion total supply"
                   fill
                   className="object-contain drop-shadow-[0_0_30px_rgba(236,72,153,0.4)]"
+                  sizes="(max-width: 768px) 192px, 256px"
                 />
               </motion.div>
 

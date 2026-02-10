@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const images = [
-  { src: "/3.jpg", title: "Street Fashion", year: "2024" },
-  { src: "/kirara_solana.png", title: "Solana Era", year: "2025" },
-  { src: "/4.webp", title: "Studio Session", year: "2023" },
-  { src: "/1.webp", title: "The Concept", year: "2025" },
+  { src: "/pic_04.png", title: "Street Fashion", year: "2024", alt: "Asuka Kirara street fashion photoshoot showcasing modern style" },
+  { src: "/kirara_solana.png", title: "Solana Era", year: "2025", alt: "Kirara Solana token - Official cryptocurrency of Asuka Kirara ecosystem" },
+  { src: "/pic_05.png", title: "Studio Session", year: "2023", alt: "Asuka Kirara professional studio photoshoot session" },
+  { src: "/pic_02.png", title: "The Concept", year: "2025", alt: "Asuka Kirara - The vision and concept art for Web3 revolution" },
 ];
 
 export function Gallery() {
@@ -39,7 +39,7 @@ export function Gallery() {
         {images.map((img, i) => (
           <motion.div
             key={i}
-            className="snap-center shrink-0 w-[80vw] sm:w-[60vw] lg:w-[500px] h-[350px] sm:h-[400px] lg:h-[650px] relative rounded-2xl overflow-hidden group cursor-pointer"
+            className="snap-center shrink-0 w-[85vw] sm:w-[65vw] md:w-[550px] lg:w-[500px] h-[550px] sm:h-[600px] md:h-[700px] lg:h-[650px] relative rounded-2xl overflow-hidden group cursor-pointer"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -47,13 +47,14 @@ export function Gallery() {
           >
             <Image
               src={img.src}
-              alt={img.title}
+              alt={img.alt}
               fill
               className={`transition-transform duration-700 group-hover:scale-110 ${
                 img.src === "/kirara_solana.png"
                   ? "object-contain bg-black/50"
                   : "object-cover"
               }`}
+              sizes="(max-width: 640px) 80vw, (max-width: 1024px) 60vw, 500px"
             />
             {/* Hover overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

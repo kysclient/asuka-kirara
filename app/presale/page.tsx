@@ -16,11 +16,12 @@ export default function PresalePage() {
       {/* Background image - lowest layer */}
       <div className="fixed inset-0 z-0">
         <Image
-          src="/2.jpg"
-          alt="Background"
+          src="/pic_03.png"
+          alt="Asuka Kirara - Exclusive presale background showcasing the icon behind $KIRARA token"
           fill
           className="object-cover opacity-10 grayscale blur-[6px]"
           priority
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80" />
       </div>
