@@ -2,19 +2,23 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Shield, Gem, Users } from "lucide-react";
 
 const stats = [
-  { label: "Followers", value: "5M+" },
-  { label: "Industry Awards", value: "15+" },
-  { label: "Years Active", value: "12" },
-  { label: "Brand Value", value: "∞" },
+  { label: "Followers", value: "5M+", icon: Users },
+  { label: "Industry Awards", value: "15+", icon: Gem },
+  { label: "Years Active", value: "12", icon: Shield },
+  { label: "Brand Value", value: "\u221E", icon: Shield },
 ];
 
 export function About() {
   return (
-    <section id="about" className="py-32 bg-zinc-950 relative overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section id="about" className="py-32 relative overflow-hidden">
+      {/* Section background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-950 to-black" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-500/20 to-transparent" />
+
+      <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative">
             <motion.div
@@ -22,7 +26,7 @@ export function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative h-[700px] w-full rounded-2xl overflow-hidden"
+              className="relative h-[500px] lg:h-[700px] w-full rounded-2xl overflow-hidden"
             >
               <Image
                 src="/2.jpg"
@@ -30,16 +34,21 @@ export function About() {
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
             </motion.div>
 
-            {/* Overlay Text */}
+            {/* Overlay text */}
             <div className="absolute bottom-10 left-10 z-10">
               <p className="text-white/60 font-mono text-sm mb-2">
                 CANON IMAGE 002
               </p>
               <h3 className="text-3xl font-serif text-white">Icon Status</h3>
             </div>
+
+            {/* Decorative corner */}
+            <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-pink-500/30 rounded-tl-lg" />
+            <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-purple-500/30 rounded-br-lg" />
           </div>
 
           <div className="space-y-12">
@@ -54,7 +63,7 @@ export function About() {
               </h2>
               <h3 className="text-4xl lg:text-5xl font-serif font-bold text-white mb-8">
                 Redefining <br />
-                <span className="text-zinc-500">Digital Influence</span>
+                <span className="text-gradient">Digital Influence</span>
               </h3>
               <p className="text-zinc-400 text-lg leading-relaxed mb-6">
                 Born Konno Eri in Tokyo, Asuka Kirara rose to become one of the
@@ -71,7 +80,7 @@ export function About() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-6">
               {stats.map((stat, i) => (
                 <motion.div
                   key={i}
@@ -79,9 +88,9 @@ export function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="border-t border-white/10 pt-4"
+                  className="glass-panel rounded-xl p-5 hover:bg-white/10 transition-colors group"
                 >
-                  <div className="text-3xl font-bold text-white font-serif mb-1">
+                  <div className="text-3xl font-bold text-white font-serif mb-1 group-hover:text-pink-500 transition-colors">
                     {stat.value}
                   </div>
                   <div className="text-sm text-zinc-500 uppercase tracking-widest">
@@ -105,7 +114,7 @@ export function About() {
                   transition={{ delay: 0.5 + i * 0.1 }}
                   className="flex items-center gap-3 text-zinc-300"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-pink-500" />
+                  <CheckCircle2 className="w-5 h-5 text-pink-500 shrink-0" />
                   <span>{item}</span>
                 </motion.div>
               ))}

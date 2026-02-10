@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useAccount } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Loader2, Lock, Unlock, ArrowRight, ShieldCheck } from "lucide-react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import {
+  Loader2,
+  Lock,
+  ArrowRight,
+  ShieldCheck,
+  Sparkles,
+  Wallet,
+} from "lucide-react";
 import clsx from "clsx";
 
 export function PresaleForm() {
-  const { isConnected } = useAccount();
+  const { connected, publicKey } = useWallet();
+  const { setVisible } = useWalletModal();
   const [amount, setAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -34,33 +42,47 @@ export function PresaleForm() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass-panel p-8 rounded-2xl relative overflow-hidden"
+        className="glass-panel-strong p-6 sm:p-8 rounded-2xl relative overflow-hidden glow-pink"
       >
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500" />
+        {/* Top gradient bar */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 animate-gradient-x" />
 
-        <div className="mb-8 text-center">
+        <div className="mb-6 sm:mb-8 text-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", delay: 0.2 }}
+            className="w-12 h-12 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-pink-500/20"
+          >
+            <Sparkles className="w-6 h-6 text-pink-500" />
+          </motion.div>
           <h2 className="text-2xl font-serif text-white mb-2">Private Sale</h2>
           <p className="text-zinc-400 text-sm">
             Join the exclusive circle before public launch
           </p>
         </div>
 
-        {!isConnected ? (
-          <div className="h-[300px] flex flex-col items-center justify-center space-y-4">
-            <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-2">
-              <ShieldCheck className="w-8 h-8 text-pink-500" />
+        {!connected ? (
+          <div className="h-[280px] sm:h-[300px] flex flex-col items-center justify-center space-y-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-full flex items-center justify-center mb-2 border border-white/5">
+              <Wallet className="w-8 h-8 text-pink-500" />
             </div>
-            <p className="text-zinc-500 text-center max-w-[200px] mb-4">
-              Connect your wallet to access the private sale interface
+            <p className="text-zinc-500 text-center max-w-[220px] mb-4 text-sm">
+              Connect your Solana wallet to access the private sale
             </p>
-            <ConnectButton />
+            <button
+              onClick={() => setVisible(true)}
+              className="bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold px-6 py-3 rounded-full hover:shadow-lg hover:shadow-pink-500/25 transition-all text-sm"
+            >
+              Connect Wallet
+            </button>
           </div>
         ) : isSuccess ? (
-          <div className="text-center py-8">
+          <div className="text-center py-6 sm:py-8">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6"
+              className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20"
             >
               <ShieldCheck className="w-10 h-10 text-green-500" />
             </motion.div>
@@ -69,7 +91,7 @@ export function PresaleForm() {
             </h3>
             <p className="text-zinc-400 mb-6">
               You have secured{" "}
-              <span className="text-pink-500 font-mono">
+              <span className="text-pink-500 font-mono font-bold">
                 {kiraraAmount.toLocaleString()} KIRARA
               </span>
             </p>
@@ -101,8 +123,19 @@ export function PresaleForm() {
             </button>
           </div>
         ) : (
-          <div className="space-y-6">
-            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+          <div className="space-y-5 sm:space-y-6">
+            {/* Connected wallet info */}
+            {publicKey && (
+              <div className="flex items-center justify-center gap-2 text-xs text-zinc-500 -mt-2 mb-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                <span className="font-mono">
+                  {publicKey.toBase58().slice(0, 6)}...{publicKey.toBase58().slice(-4)}
+                </span>
+              </div>
+            )}
+
+            {/* SOL Input */}
+            <div className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-white/15 transition-colors">
               <div className="flex justify-between mb-2">
                 <label className="text-xs text-zinc-400 uppercase tracking-wider">
                   Pay With
@@ -121,17 +154,31 @@ export function PresaleForm() {
                   placeholder="0.00"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="bg-transparent text-2xl font-mono text-white text-right w-full focus:outline-none placeholder:text-zinc-700"
+                  className="bg-transparent text-xl sm:text-2xl font-mono text-white text-right w-full focus:outline-none placeholder:text-zinc-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
-            </div>
-
-            <div className="flex justify-center -my-3 relative z-10">
-              <div className="bg-zinc-900 border border-white/10 p-2 rounded-full">
-                <ArrowRight className="w-4 h-4 text-zinc-500 rotate-90" />
+              {/* Quick amount buttons */}
+              <div className="flex gap-2 mt-3">
+                {[100, 250, 500, 1000].map((val) => (
+                  <button
+                    key={val}
+                    onClick={() => setAmount(String(val))}
+                    className="flex-1 text-xs py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors border border-white/5 font-mono"
+                  >
+                    {val}
+                  </button>
+                ))}
               </div>
             </div>
 
+            {/* Arrow divider */}
+            <div className="flex justify-center -my-2 relative z-10">
+              <div className="bg-zinc-900 border border-white/10 p-2 rounded-full">
+                <ArrowRight className="w-4 h-4 text-pink-500 rotate-90" />
+              </div>
+            </div>
+
+            {/* KIRARA Output */}
             <div className="bg-white/5 p-4 rounded-xl border border-white/10">
               <div className="flex justify-between mb-2">
                 <label className="text-xs text-zinc-400 uppercase tracking-wider">
@@ -142,7 +189,7 @@ export function PresaleForm() {
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-full border border-white/10">
+                <div className="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-full border border-pink-500/20">
                   <div className="w-5 h-5 bg-pink-500 rounded-full" />
                   <span className="text-white font-bold text-sm">KIRARA</span>
                 </div>
@@ -150,19 +197,20 @@ export function PresaleForm() {
                   type="text"
                   readOnly
                   value={kiraraAmount > 0 ? kiraraAmount.toLocaleString() : "0"}
-                  className="bg-transparent text-2xl font-mono text-pink-500 text-right w-full focus:outline-none"
+                  className="bg-transparent text-xl sm:text-2xl font-mono text-pink-500 text-right w-full focus:outline-none"
                 />
               </div>
             </div>
 
+            {/* Buy button */}
             <button
               onClick={handleBuy}
               disabled={!amount || Number(amount) <= 0 || isLoading}
               className={clsx(
-                "w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all",
+                "w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-sm sm:text-base",
                 !amount || Number(amount) <= 0 || isLoading
                   ? "bg-white/10 text-zinc-500 cursor-not-allowed"
-                  : "bg-pink-600 hover:bg-pink-500 text-white shadow-lg shadow-pink-500/25",
+                  : "bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40"
               )}
             >
               {isLoading ? (
@@ -171,7 +219,10 @@ export function PresaleForm() {
                   Processing...
                 </>
               ) : (
-                "Participate in Private Sale"
+                <>
+                  <Sparkles className="w-4 h-4" />
+                  Participate in Private Sale
+                </>
               )}
             </button>
 
@@ -183,19 +234,24 @@ export function PresaleForm() {
         )}
       </motion.div>
 
-      {/* Mock Claim Section (Hidden until applicable, but shown here for prototype completeness if user scrolls down) */}
-      {isConnected && !isSuccess && (
-        <div className="mt-8 p-6 border border-white/5 rounded-2xl bg-white/5">
+      {/* Allocations section */}
+      {connected && !isSuccess && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-6 sm:mt-8 p-5 sm:p-6 border border-white/5 rounded-2xl bg-white/[0.02] backdrop-blur-sm"
+        >
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-white font-medium">My Allocations</h3>
-            <span className="text-xs text-zinc-500 bg-black/40 px-2 py-1 rounded">
+            <h3 className="text-white font-medium text-sm">My Allocations</h3>
+            <span className="text-xs text-zinc-500 bg-black/40 px-2 py-1 rounded border border-white/5">
               No Active Locks
             </span>
           </div>
-          <p className="text-sm text-zinc-500 text-center py-4">
+          <p className="text-sm text-zinc-600 text-center py-4">
             Purchase tokens to see your vesting schedule here.
           </p>
-        </div>
+        </motion.div>
       )}
     </div>
   );
